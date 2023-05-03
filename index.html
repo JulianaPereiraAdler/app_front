@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="referrer" content="no-referrer-when-downgrade">
+
+  <!-- Tab Info -->
+  <link rel="shortcut icon" href="assets/img/favicon.png">
+  <title> MVP 1 </title>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" type="text/css" href="assets/lib/material-design-icons/css/material-design-iconic-font.min.css"/>
+  <link rel="stylesheet" href="assets/css/app.css" type="text/css"/>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"/>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/multi-select/0.9.12/css/multi-select.css">
+  <link href="https://fonts.cdnfonts.com/css/roboto" rel="stylesheet"> 
+  <link rel="stylesheet" href="assets/css/app.css" type="text/css"/>
+
+
+  <!-- JavaScript -->
+  <script src="assets/lib/jquery/jquery.min.js" type="text/javascript"></script>
+  <script src="assets/js/app.js" type="text/javascript"></script>
+  <script src="assets/lib/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js  " type="text/javascript"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js" type="text/javascript"></script>  
+  <script src="assets/lib/datatables/datatables.net/js/jquery.dataTables.js" type="text/javascript"></script>
+  <script src="assets/lib/datatables/datatables.net-bs4/js/dataTables.bootstrap4.js" type="text/javascript"></script>
+  <script src="assets/lib/datatables/datatables.net-buttons/js/dataTables.buttons.min.js" type="text/javascript"></script>
+  <link rel="stylesheet" type="text/css" href="assets/lib/datatables/datatables.net-bs4/css/dataTables.bootstrap4.css">
+  <script src="https://kit.fontawesome.com/4ba02da364.js" crossorigin="anonymous"></script>
+  <script src="js_index.js"></script>
+  <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" type="text/javascript"></script>
+
+   <!-- Reference to handle dates: https://datatables.net/blog/2014-12-18-->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js" type="text/javascript"></script>
+   <script src="https://cdn.datatables.net/plug-ins/1.10.19/sorting/datetime-moment.js" type="text/javascript"></script>
+
+</head>
+
+<body cz-shortcut-listen="true" class="be-animate">
+  <div class="be-wrapper be-offcanvas-menu be-fixed-sidebar">
+    <nav class="navbar navbar-expand fixed-top be-top-header">
+      <div class="container-fluid">
+        <div class="page-title">
+          <span class="titulo_dashboard">
+            <img src="assets/img/favicon-32x32.png" style="padding-right:5px;"> 
+            Controle Termos de Compromisso CVM
+          </span>
+        </div>
+        <div class="be-right-navbar">
+          <ul class="nav navbar-nav float-right be-user-nav">
+            <li class="nav-item dropdown">
+              <a class="nav-link logo_swagger" target="_blank" aria-expanded="false" href="http://127.0.0.1:5000/openapi/swagger">
+                <img src="assets/img/swagger.png" style="zoom:95%;">
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link" href="https://github.com/JulianaPereiraAdler" target="_blank" aria-expanded="false">
+                <span class="icon mdi fa-brands fa-github btn_github" style="zoom:175%; margin-top:10px;"></span>
+              </a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" role="button" aria-expanded="false">
+                <i class="icon mdi mdi-account-circle icon_login"></i>
+              </a>
+              <div class="dropdown-menu" role="menu">     
+                <div class="user-info">
+                  <div class="user-name nome_usuario"></div>
+                  <div class="user-position online">Available</div>
+                </div>
+                <a class="dropdown-item btn_logout" href=""><span class="icon mdi mdi-power"></span>Logout</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="be-content">
+      <div class="main-content container-fluid">
+        <div class="row">
+          <div class="col-12 col-lg-8">
+            <div class="card subtitulo_div loader_tag be-loading">
+              <div class="card-header">
+                <div class="tools"> 
+                  <span class="icon fa-solid fa-arrow-rotate-left icon_back" style="display: none;"></span>
+                </div>
+                <div class="title_cards_termo">
+                  <div class="title">Tags</div>
+                  <span class="card-subtitle subtitle_card_termo legenda_categoria">Clique no tag da categoria que deseja filtrar.</span>
+                  <span class="card-subtitle subtitle_card_termo legenda_tag_filtro" style="display:none;">Clique no tag para filtrar ou clique no <i class="fa-solid fa-arrow-rotate-left icon_back"></i> para voltar ver as categorias.</span>
+                </div>
+              </div>
+              <div class="subtitulo_div_values">
+                <kbd class="kbd_tag_sample">
+                  <span class="texto_tag"></span>
+                  <span class="mdi mdi-close delete_tag" style="display:none;"></span>
+                  <span class="mdi fa-solid fa-pen delete_tag icon_tag" style="display: none;"></span>
+                </kbd>
+              </div>
+              <div class="be-spinner">
+                <svg width="40px" height="40px" viewBox="0 0 66 66" xmlns="http://-www.w3.org/2000/svg">
+                  <circle fill="none" stroke-width="4" stroke-linecap="round" cx="33" cy="33" r="30" class="circle"></circle>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-2">
+            <div class="be-loading loading_status_termos">
+              <div class="widget widget-tile">
+                <div class="data-info">
+                  <div class="desc title_widget">Termos Classificados</div>
+                  <div class="value">
+                    <span class="indicator indicator-positive mdi mdi-chevron-right"></span>
+                    <span class="number qnt_termos_classificados" data-toggle="counter"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="be-spinner">
+                <svg width="40px" height="40px" viewBox="0 0 66 66" xmlns="http://-www.w3.org/2000/svg">
+                  <circle fill="none" stroke-width="4" stroke-linecap="round" cx="33" cy="33" r="30" class="circle"></circle>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-2">
+            <div class="be-loading loading_status_termos">
+              <div class="widget widget-tile">
+                <div class="data-info">
+                  <div class="desc title_widget">Termos Pendentes</div>
+                  <div class="value">
+                    <span class="indicator indicator-negative mdi mdi-chevron-right"></span>
+                    <span class="number qnt_termos_pendentes" data-toggle="counter"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="be-spinner">
+                <svg width="40px" height="40px" viewBox="0 0 66 66" xmlns="http://-www.w3.org/2000/svg">
+                  <circle fill="none" stroke-width="4" stroke-linecap="round" cx="33" cy="33" r="30" class="circle"></circle>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-lg-8">
+            <div class="card loader_termos be-loading">
+              <div class="card-header card-header-divider">
+                <div class="tools dropdown"> 
+                  <span class="icon mdi mdi-file-plus modal_cadastrar_termo" data-toggle="tooltip" data-placement="top" title="Cadastrar termo manualmente"></span>
+                  
+                </div>
+                <div class="title_cards_termo" style="display:inline;">Termos de Compromisso
+
+                <span class="card-subtitle row" style="display: flex; justify-content: space-between; padding:0px 15px;">
+                  <span>Informações dos termos disponibilizadas no site da CVM</span> 
+                  <span class="row" style="padding-right:10px;"> 
+                    <a href="https://conteudo.cvm.gov.br/termos_compromisso/index.html" target="_blank">
+                      <button class="btn btn-secondary btn-xs" style="margin-right:3px; color:#939393;"><i class="icon-left fa-solid fa-arrow-up-right-from-square" style="padding-right:3px;"></i>Site CVM</button>
+                    </a>
+                    <button class="btn btn-secondary btn-xs bnt_scraping_cvm" style="margin-right:3px; color:#939393;" data-toggle="tooltip" data-placement="top" title="Buscar dados publicação na CVM">
+                      <i class="icon-left fa-solid fa-database" style="padding-right:3px;"></i>Buscar Dados
+                    </button>
+                  </span>
+                </span>
+              </div>
+               
+              </div>
+              <div class="card-body table-responsive card_body_scroll">
+                <table id="tabela_termos" class="table table-hover table-borderless">
+                  <thead>
+                    <tr>
+                      <th class="th_table text-center" style="width:0px; padding:0px; margin:0px;"></th>
+                      <th class="th_table text-center" style="max-width:45px;">Data</th>
+                      <th class="th_table text-center" style="width:130px;">Núm processo</th>
+                      <th class="th_table" style="min-width:25%;">Compromitentes</th>
+                      <th class="th_table">Tags</th>
+                      <th class="th_table" style="width:5px;"></th>
+                    </tr>
+                  </thead>
+                  <tbody class="no-border-x">
+                  </tbody>
+                </table>
+              </div>
+              <div class="be-spinner">
+                <svg width="40px" height="40px" viewBox="0 0 66 66" xmlns="http://-www.w3.org/2000/svg">
+                  <circle fill="none" stroke-width="4" stroke-linecap="round" cx="33" cy="33" r="30" class="circle"></circle>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-4">
+            <div class="card be-loading loader_atividade">
+              <div class="card-header card-header-divider">
+                <div class="tools dropdown"> 
+                    <span class="icon mdi mdi-edit edit_atividade_termo" data-toggle="tooltip" data-placement="top" title="Editar atividade"></span>
+                    <span class="icon mdi mdi-collection-plus add_atividade_termo" data-toggle="tooltip" data-placement="top" title="Adicionar atividade"></span>
+                </div>
+                <div class="title_cards_termo" style="display:inline;">Atividades Recentes
+                  <span class="card-subtitle">Clique no icon <i class="fa-solid fa-list-ul" style="zoom:80%;"></i> na tabela para filtrar atividades do termo.</span>
+                </div>
+             </div>
+              <div class="card-body card_body_scroll">
+                <div class="nenhuma_atividade_termo"  style="display: none;">
+                  <div>Nenhuma atividade registrada para o termo <span class="span_num_termo_atividade"></span></div>
+                </div>
+                <ul class="user-timeline ul_atividades_recentes">
+                  <li class="latest sample_li_atividade" style="display: none;">
+                    <div class="row">
+                    <div class="user-timeline-date col-6">
+                      <span class="fa-solid fa-trash-can delete_atividade_termo" data-toggle="tooltip" data-placement="top" title="Editar tags" style="display: none;"></span>
+                      <span class="user_name_atividade"></span>
+                    </div>
+                    <div class="user-timeline-date col-6 text-right time_stamp_atividade"></div></div>
+                    <div class="user-timeline-description descricao_atividade"></div>
+                    <div class="user-timeline-title num_termo_atividade">
+                        <span class="tag_num_termo_sample"  style="white-space: nowrap; display: none;"></span>
+                    </div>                    
+                  </li>            
+                </ul>
+              </div>
+              <div class="be-spinner">
+                <svg width="40px" height="40px" viewBox="0 0 66 66" xmlns="http://-www.w3.org/2000/svg">
+                  <circle fill="none" stroke-width="4" stroke-linecap="round" cx="33" cy="33" r="30" class="circle"></circle>
+                </svg>
+              </div>
+            </div>                  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--MODAL LOG IN-->
+  <div class="modal fade colored-header colored-header-primary" data-backdrop="static" id="modal_login" tabindex="-1"  role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content" style="width:65%;">
+        <div class="card card-border-color card-border-color-primary">
+          <div class="card-header">
+            <span class="splash-description titulo_dashboard" style="padding-bottom:0px; margin-bottom:0px; margin-top:45px; font-weight:400; color:#637474; font-size:14px">CONTROLE TERMOS DE COMPROMISSO CVM</span>
+            <span class="splash-description" style="padding-bottom:0px; margin-bottom:15px; font-weight:400; color:#a9acb2">Por favor, fazer login antes de prosseguir.</span>
+          </div>
+          <div class="card-body" style="margin:0px 10px;">
+            <form>
+              <div class="form-group pt-2" style="margin-bottom:0px;">
+                  <input class="form-control form-control-sm" id="nome_usuario_login" type="text" placeholder="Nome do Usuário">
+              </div>
+              <div class="form-group pt-2">
+                <input class="form-control form-control-sm" id="chatgpt_key" type="password" placeholder="Chat GPT Key (Opcional)">
+              </div>
+              <div class="alert alert-danger alert-icon alert-dismissible alerta_error_login" role="alert" style="display:none;">
+                <div class="icon" style="zoom:90%;"><span class="mdi mdi-close-circle-o"></span></div>
+                <div class="message">
+                  <strong>Atenção!</strong> Digitar nome para fazer login.                    </div>
+              </div>
+              <div class="form-group row login-submit" style="margin-top:0px; padding-top:0px;">
+                <a class="btn btn-primary btn-l btn_fazer_login">Sign me in</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--FIM MODAL-->
+
+  <!--MODAL INSERIR NOVO TERMO-->
+  <div class="modal fade colored-header colored-header-primary" id="modal_registra_termo" tabindex="-1"  role="dialog">
+    <div class="modal-dialog full-width-2">
+      <div class="modal-content">
+        <div class="card-header card-header-divider">
+          <button class="close md-close" type="button" data-dismiss="modal" aria-hidden="true"><span class="mdi mdi-close"></span></button>
+          Inserir novo Termo de Compromisso
+          <span class="card-subtitle">Preencher todos os campos obrigatórios (*) </span>
+        </div>
+
+        <div class="modal-body" style="padding-top:0px; margin-top:0px;">
+          <form>
+            <div class="form-group pt-2">
+              <label for="num_processo">Número do processo</label>
+              <input class="form-control form-control-sm" id="num_processo" data-tipo="num_processo" type="text">
+            </div>
+            <div class="form-group">
+              <label for="data_aprovacao">Data de aprovação</label>
+              <input class="form-control form-control-sm" id="data_aprovacao" data-tipo="data_aprovacao" type="date">
+            </div>
+            <div class="form-group">
+              <label for="data_assinatura">Data de assinatura</label>
+              <input class="form-control form-control-sm" id="data_assinatura" data-tipo="data_assinatura" type="date">
+            </div>
+            <div class="form-group">
+              <label for="data_publicacao">Data de publicação</label>
+              <input class="form-control form-control-sm" id="data_publicacao"  data-tipo="data_publicacao" type="date">
+            </div>
+            <div class="form-group">
+              <label for="data_publicacao">Compromitentes</label>
+              <input class="form-control form-control-sm" id="compromitentes"  data-tipo="compromitentes" type="text">
+            </div>
+            <div class="form-group">
+              <label for="URL_decisao">URL da Decisão do Colegiado e Parecer do CTC</label>
+              <input class="form-control form-control-sm" id="URL_decisao"  data-tipo="URL_decisao" type="text">
+            </div>
+            <div class="form-group">
+              <label for="data_arquivamento">Data de Arquivamento</label>
+              <input class="form-control form-control-sm" id="data_arquivamento" data-tipo="data_arquivamento" type="date">
+            </div>
+
+            <div class="col-lg-12" style="margin: 0px; padding: 0px; padding-bottom:20px;">
+              <hr style="margin: 15px 0px 5px 0px; color:#dddddd;">
+              <span style="margin-left:0px; color:#a5a5a5; font-weight:500;">DETALHES DO TERMO</span>
+            </div>
+            <div class="form-group">
+              <label for="URL_parecer">URL Parecer do Comitê </label>
+              <input class="form-control form-control-sm" id="URL_parecer"  data-tipo="URL_parecer" type="text">
+            </div>
+            <div class="form-group">
+              <label for="resumo">Resumo </label>
+              <textarea class="form-control form-control-sm" id="resumo"  data-tipo="resumo" type="text"></textarea>
+            </div>
+            <div class="col-lg-12" style="margin: 0px; padding: 0px; padding-bottom:10px;">
+              <hr style="margin: 15px 0px 5px 0px; color:#dddddd;">
+            </div>            
+            <!-- Alerta
+            <div style="display:none; padding:0px; padding-right:15px; margin:0px; margin=bottom:0px;" class="aviso_idBTG">
+              <p style=" float: right; padding-bottom:0px; margin-bottom:5px; color:#b21a00; font-weight:450;">
+                <span class="mdi mdi-alert-circle" style="zoom:130%; padding-right:2px;"></span>ID BTG já cadastrado
+              </p>
+            </div> -->
+            <div class="modal-footer" style="padding-top:0px;">
+              <button class="btn btn-secondary md-close bnt_cancel_add_termo" type="button" data-dismiss="modal">Cancel</button>
+              <button class="btn btn-primary md-close btn_add_termo" type="button">Salvar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--FIM MODAL-->
+
+  <!--MODAL INSERIR NOVA ATIVIDADE-->
+  <div class="modal fade colored-header colored-header-primary" id="modal_registra_atividade" tabindex="-1"  role="dialog">
+    <div class="modal-dialog full-width-2">
+      <div class="modal-content">
+        <div class="card-header card-header-divider">
+          <button class="close md-close" type="button" data-dismiss="modal" aria-hidden="true"><span class="mdi mdi-close"></span></button>
+          Inserir nova atividade
+          <span class="card-subtitle">Preencher todos os campos obrigatórios (*) </span>
+        </div>
+
+        <div class="modal-body" style="padding-top:0px; margin-top:0px;">
+          <form>
+            <div class="form-group pt-2">
+              <label for="user_name_atividade">Nome do Usuário</label>
+              <input class="form-control form-control-sm" id="user_name_atividade" disabled type="text">
+            </div>
+            <div class="form-group">
+              <label for="descricao_atividade">Descrição da Atividade</label>
+              <textarea class="form-control form-control-sm" id="descricao_atividade" type="text"> </textarea>
+            </div>
+            <div class="form-group">
+              <label for="termo_relacionados_atividade">Termos de compromisso relacionados</label>
+              <select class="select2 select2-xs" id="select2_termos_relacionados_atividades"></select>
+            </div>
+            
+            <!-- Alerta
+            <div style="display:none; padding:0px; padding-right:15px; margin:0px; margin=bottom:0px;" class="aviso_idBTG">
+              <p style=" float: right; padding-bottom:0px; margin-bottom:5px; color:#b21a00; font-weight:450;">
+                <span class="mdi mdi-alert-circle" style="zoom:130%; padding-right:2px;"></span>ID BTG já cadastrado
+              </p>
+            </div> -->
+            <div class="modal-footer" style="padding-top:0px;">
+              <button class="btn btn-secondary md-close" type="button" data-dismiss="modal">Cancel</button>
+              <button class="btn btn-primary md-close bnt_save btn_add_atividade" type="button">Salvar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--FIM MODAL-->
+
+  <!--MODAL VIEW AND EDIT TERMO-->
+  <div class="modal fade colored-header colored-header-primary" id="modal_view_termo" tabindex="-1"  role="dialog">
+    <div class="modal-dialog full-width" style="width:70%;">
+      <div class="modal-content">
+        <div class="card-header card-header-divider">
+          <button class="close md-close" type="button" data-dismiss="modal" aria-hidden="true"><span class="mdi mdi-close"></span></button>
+          Termo de Compromisso Número: <span id="num_termo_edit"></span>
+          <span class="card-subtitle">Detalhes do termo de compromisso </span>
+        </div>
+
+        <div class="modal-body" style="padding-top:0px; margin-top:0px;">
+          <form class="form_body_model">
+            <div class="row">
+              <div class="form-group col-3">
+                <label for="data_aprovacao">Data de aprovação</label>
+                <input class="form-control form-control-sm input_edit_termo" id="data_aprovacao_edit" data-tipo="data_aprovacao" type="date">
+              </div>
+              <div class="form-group col-3">
+                <label for="data_assinatura">Data de assinatura</label>
+                <input class="form-control form-control-sm input_edit_termo" id="data_assinatura_edit" data-tipo="data_assinatura" type="date">
+              </div>
+              <div class="form-group col-3">
+                <label for="data_publicacao">Data de publicação</label>
+                <input class="form-control form-control-sm input_edit_termo" id="data_publicacao_edit" data-tipo="data_publicacao" type="date">
+              </div>
+              <div class="form-group col-3">
+                <label for="data_arquivamento">Data de Arquivamento</label>
+                <input class="form-control form-control-sm input_edit_termo" id="data_arquivamento_edit" data-tipo="data_arquivamento" type="date">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="data_publicacao">Compromitentes</label>
+              <input class="form-control form-control-sm input_edit_termo" id="compromitentes_edit" data-tipo="compromitentes" type="text">
+            </div>
+
+            <div class="edit_url">
+              <div class="form-group">
+                <label for="URL_decisao">URL da Decisão do Colegiado e Parecer do CTC</label>
+                <input class="form-control form-control-sm input_edit_termo" id="URL_decisao_edit"  data-tipo="URL_decisao" type="text">
+              </div>
+
+              <div class="col-lg-12" style="margin: 0px; padding: 0px; padding-bottom:20px;">
+                <hr style="margin: 15px 0px 5px 0px; color:#dddddd;">
+                <span style="margin-left:0px; color:#a5a5a5; font-weight:500;">DETALHES DO TERMO</span>
+              </div>
+              <div class="form-group">
+                <label for="URL_parecer">URL Parecer do Comitê </label>
+                <input class="form-control form-control-sm input_edit_termo" id="URL_parecer_edit"  data-tipo="URL_parecer" type="text">
+              </div>
+            </div>
+            
+            <div class="icon_docs_links">
+              <div class="col-lg-12" style="margin: 0px; padding: 0px; padding-bottom:20px;">
+                <hr style="margin: 15px 0px 5px 0px; color:#dddddd;">
+                <span style="margin-left:0px; color:#a5a5a5; font-weight:500;">DOCUMENTOS</span>
+              </div>
+              <div class="row div_docs">
+                <div class="div_doc_parecer">
+                  <a class="icon_consulta_doc doc_parecer" target="_blank" href=""><i class="mdi fa-solid fa-file-lines"></i></a>
+                  <div class="icon_consulta_doc_lable">Parecer</div>
+                </div>
+                <div class="div_doc_decisao">
+                  <a class="icon_consulta_doc doc_decisao" target="_blank" href=""><i class="mdi fa-solid fa-file-contract"></i></a>
+                  <div class="icon_consulta_doc_lable">Decisão</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-12" style="margin: 0px; padding: 0px; padding-bottom:20px;">
+              <hr style="margin: 15px 0px 5px 0px; color:#dddddd;">
+              <span style="margin-left:0px; color:#a5a5a5; font-weight:500;">RESUMO</span>
+              <br>
+              <div class="be-loading loader_resumo" style="padding:0px; margin:0px;" >
+                <button class="btn btn-secondary btn-xs resume_chatgpt"><i class="icon-left fa-solid fa-arrow-up-right-from-square" style="padding-right:3px;"></i>Usar Chat GPT</button>
+                <span class="aviso_key_chatgpt"> É necessário logar inserindo a Chat GPT Key para habilitar funcionalidade</span>
+                <textarea class="form-control form-control-sm input_edit_termo div_resumo" style="height: 120px;" id="resumo_edit" data-tipo="resumo" type="text"></textarea>
+                <div class="be-spinner">
+                  <svg width="40px" height="40px" viewBox="0 0 66 66" xmlns="http://-www.w3.org/2000/svg">
+                    <circle fill="none" stroke-width="4" stroke-linecap="round" cx="33" cy="33" r="30" class="circle"></circle>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-12" style="margin: 0px; padding: 0px; padding-bottom:20px;">
+              <hr style="margin: 15px 0px 5px 0px; color:#dddddd;">
+              <span style="margin-left:0px; color:#a5a5a5; font-weight:500;">TAGS</span>
+              <span class="mdi mdi-edit delete_tag_icon"></span>
+            </div>
+            <div class="div_tag_expand_termo">
+            </div>
+            <div class="add_new_tag_termo" style="display: none;">
+              
+              <div class="div_tag_existente">
+                <div class="col-4 select_tag">
+                <div class="row">
+                  <div class="lable col-6"> Selecione a tag ja existente:</div>
+                    <div class="col-6">
+                      <a href="" class="bnt_cadastrar_nova_tag"><i class="mdi fa-solid fa-tag icon_tag"></i>
+                        Cadastrar novo tag
+                      </a>
+                    </div>
+                  </div>
+                  <div class="input-group mb-3">
+                    <select class="select2 select2-xs" id="select2_tags"></select>
+                    <div class="input-group-append">
+                      <button class="btn btn-primary" type="button" id="bnt_inserir_tag">Inserir</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="div_tag_nova">
+                <div class="col-4 select_tag">
+                  
+                  <div class="cadastra_tag_cat_existente" style="display:none;">
+                    <div class="row">
+                      <div class="lable col-6"> Selecione a categoria da tag:</div>
+                      <div class="col-6">
+                        <a href="" class="bnt_voltar_tag_existente"><i class="fa-solid fa-arrow-rotate-left" style="padding:0px;"></i> 
+                          Voltar 
+                        </a>
+                        <a href="" class="bnt_cadastrar_nova_cat_tag"><i class="mdi fa-solid fa-tag icon_tag"></i>
+                          Cadastrar novo categoria
+                        </a>
+                      </div>
+                    </div>
+                    <div class="input-group mb-3">
+                      <select class="select2 select2-xs" id="select2_categoria_tags"></select>
+                    </div>
+                  </div>
+
+
+                  <div class="cadastra_nova_cat" style="display:none;">
+                    <div class="row">
+                      <div class="lable col-6"> Nome da Categoria</div>
+                      <div class="col-6">
+                        <a href="" class="bnt_voltar_categoria_existente"><i class="fa-solid fa-arrow-rotate-left" style="padding:0px;"></i> 
+                          Voltar 
+                        </a>
+                      </div>
+                    </div>
+                    <div class="input-group mb-3">
+                      <input class="form-control form-control-xs nome_nova_cat" type="text">
+                    </div>
+                    <div class="lable col-6 lable_tag_nome">Cor da categoria </div>
+                    <div class="input-group mb-3">
+                      <input class="form-control form-control-xs cor_cat" type="color" value="#80c6a2">
+                    </div>  
+                  </div>
+
+                  <div class="nome_nova_tag" style="display:none;">
+                    <div class="lable col-6 lable_tag_nome">Nome da tag</div>
+                    <div class="input-group mb-3">
+                      <input class="form-control form-control-xs nome_tag" type="text">
+                      <div class="input-group-append">
+                        <button class="btn btn-primary" type="button" id="bnt_inserir_nova_tag">Inserir</button>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+        
+            <!--Alerta-->
+            <!-- <div style="display:none; padding:0px; padding-right:15px; margin:0px; margin=bottom:0px;" class="aviso_idBTG">
+              <p style=" float: right; padding-bottom:0px; margin-bottom:5px; color:#b21a00; font-weight:450;">
+                <span class="mdi mdi-alert-circle" style="zoom:130%; padding-right:2px;"></span>ID BTG já cadastrado
+              </p>
+            </div> -->
+
+          </form>
+        </div>
+        <div class="modal-footer" style="padding-top:0px;">
+          <button class="btn btn-space btn-danger hover bnt_group_edit bnt_excluir_termo" style="display: none;"><i class="icon icon-left mdi mdi-delete"></i>Excluir Termo</button>
+          <button class="btn btn-space btn-success hover bnt_group_edit bnt_edit_save_termo" style="display: none;"><i class="icon icon-left mdi mdi-check"></i>Salvar</button>
+          <button class="btn btn-space btn-secondary hover bnt_group_edit bnt_cancelar_edit" style="display: none;">Cancelar</button>
+          <button class="btn btn-space btn-secondary hover edit_termo"><i class="fa-solid fa-pen-to-square icon_edit"></i>Editar</button>
+          <button class="btn btn-space btn-secondary hover bnt_fechar_expand" data-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--FIM MODAL-->
+
+
+<div class="be-scroll-top" style="display: none;"></div><div class="tooltip-chart" style="position: absolute; left: 811.742px; top: 485px; display: none;"></div><div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div><div class="jqvmap-label" style="display: none;"></div></body>
+</html>
+
