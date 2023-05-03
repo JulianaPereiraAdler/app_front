@@ -1,6 +1,6 @@
 # Sistema de Controle e Classificação de Termos de Compromisso da CVM (MVP - Sprint 1) 
 
-Esta API foi desenvolvida para entrega do MVP da Sprint 1 da Pós-Graduação em Engenharia de Software, PUC-RIO. Ela foi desenvolvida em Flask para servir uma aplicação desenvolvida em HTML, CSS e JS.
+Esta API foi desenvolvida para entrega do MVP da Sprint 1 da Pós-Graduação em Engenharia de Software, PUC-RIO. 
 
 O Sistema Controle Termos de Compromisso CVM é uma ferramenta desenvolvida em python para auxiliar as áreas de compliance de gestoras de investimentos. A sua funcionalidade principal é permitir o controle e a classificação dos termos de compromisso publicados pela CVM, garantindo que o compliance das gestoras estejam sempre atualizadas sobre o que está sendo julgado pela CVM e assim possam tomar providencias preventivas, evitando futuros erros.
 
