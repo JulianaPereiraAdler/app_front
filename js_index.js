@@ -371,21 +371,24 @@ function preencher_atividades_recentes(n_atividades = null , id_termo  = null, n
         li.find(".descricao_atividade").text(atividade['descricao'])
         li.find(".time_stamp_atividade").text(atividade['timestamp'])
         relacionamentos = JSON.parse(atividade['relacionamentos'])
-        $.each(relacionamentos, function (id_termo, num_processo){
-          if(id_termo != ''){
-            tag_num = li.find(".tag_num_termo_sample").clone()
-            tag_num.addClass("tag_num_termo").removeClass("tag_num_termo_sample")
-            tag_num.data("id_termo",id_termo).attr("data-id_termo", id_termo)
-            tag_num.text(num_processo)
-            li.find(".num_termo_atividade").append(tag_num.show())
-          }
-        })
+        if(relacionamentos != ""){
+          $.each(relacionamentos, function (id_termo, num_processo){
+            if(num_processo != null){
+              if(id_termo != ''){
+                tag_num = li.find(".tag_num_termo_sample").clone()
+                tag_num.addClass("tag_num_termo").removeClass("tag_num_termo_sample")
+                tag_num.data("id_termo",id_termo).attr("data-id_termo", id_termo)
+                tag_num.text(num_processo)
+                li.find(".num_termo_atividade").append(tag_num.show())
+              }
+            }
+          })
+        }
         $(".ul_atividades_recentes").append(li.show())
       })
       $(".ul_atividades_recentes").show()
       $(".nenhuma_atividade_termo").hide()
     }
-
   },
 
   complete: function(){
